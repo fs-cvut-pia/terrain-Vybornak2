@@ -19,16 +19,15 @@ public:
 		}
 	};
 
-
     virtual bool find() = 0;
     virtual double costFunc(int dx, int dy, double dz) const = 0;
     virtual bool isPointValid(int x, int y, double dz) const = 0;
 protected:
     TerrainMap& map;
     std::priority_queue<Point, std::vector<Point>, Compare> frontier;
-    std::map<Point, Point*> came_from;
+    std::map<Point, Point> came_from;
     std::map<Point, double> cost_so_far;
-    std::vector<Point*> path;
+    std::vector<Point> path;
     const Point start; 
     const Point finish;
 private:

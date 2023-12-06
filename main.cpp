@@ -4,7 +4,8 @@
 #include <iostream>
 #include <string>
 
-#include "MyPath.h"
+#include "Letadlo.h"
+#include "Lod.h"
 
 int main() {
     TerrainMap m(256, 256,"terrain.dat");
@@ -12,7 +13,8 @@ int main() {
     Point finish(78, 17);
 
     std::vector<Path*> paths = { 
-        new MyPath(m, "MyPath", start, finish)
+        new Letadlo(m, "Letadlo", start, finish),
+        new Lod(m, "Lod", start, finish)
     };
 
     for (auto& p : paths) {

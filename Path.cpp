@@ -11,11 +11,12 @@ void Path::printStats() const {
     bool water = false;
     double length = 0.0;
     double alt = 0.0;
-    int max_alt = map.alt(*path[0]);
+    int max_alt = map.alt(path[0]);
 
     for (int i=1; i<path.size(); ++i) {
-        Point u = *path[i];
-        Point u_prev = *path[i-1];
+        Point u = path[i];
+        Point u_prev = path[i-1];
+        // std::cout << u.x << " " << u.y << std::endl;
         if (i < path.size() - 1 && map.alt(u) > 0) land = true;
         if (map.alt(u) < 0) water = true;
         length += (u - u_prev).length();
@@ -40,8 +41,8 @@ void Path::saveToFile() const {
 
     if (!output) throw std::runtime_error("Cannot open file " + name + ".dat");
 
-    for (const Point* u : path) {
-        output << u->x << " " << u->y << std::endl;
+    for (const Point u : path) {
+        output << u.x << " " << u.y << std::endl;
     }
 }
 
@@ -75,16 +76,11 @@ void Path::reconstructPath(Point& current) {
     path.clear();
     int i = 0;
     while (current != start) {
-        if (i++ % 1 == 0) {
-			std::cout << "Current value: " << current.x << current.y << std::endl;
-            while (true) {
-				std::cout << "Press ENTER to continue..." << std::endl;
-				if (std::cin.get() == '\n') break;
-			}
-        }
-		path.push_back(&current);
-		current = *came_from[current];
+		path.push_back(current);
+		current = came_from[current];
 	}
+	path.push_back(start);
+
     std::reverse(path.begin(), path.end());
 }
 
